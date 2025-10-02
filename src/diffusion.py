@@ -112,8 +112,8 @@ class UNET_AttentionBlock(nn.Module):
 
     def forward(self, x, context):
         """
-            x : (Batch_Size, Features, H, W)
-            context : (Batch_Size, seq_len, Dim)
+        x : (Batch_Size, Features, H, W)
+        context : (Batch_Size, seq_len, Dim)
         """
 
         residue_long = x
@@ -245,15 +245,15 @@ class UNET(nn.Module):
                 ),
             ]
         )
-        
+
     def forward(self, x, context, time):
         skip_connections = []
         for layers in self.encoder:
             x = layers(x, context, time)
             skip_connections.append(x)
-        
+
         x = self.bottleneck(x, context, time)
-        
+
         for layers in self.decoder:
             x = torch.cat((x, skip_connections.pop()), dim=1)
             x = layers(x, context, time)
